@@ -4,17 +4,20 @@ const petValidation = require("../validation").petValidation;
 const joi = require("joi");
 const multer = require("multer");
 
+// middleware
+router.use((req, res, next) => {
+    console.log("A request is coming into pets.js");
+    next();
+  });
+
 //創建一個 Multer，設置圖片存儲位置和文件名
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5242880 }, // 限制圖片大小為 5MB
 });
 
-router.use((req, res, next) => {
-  console.log("A request is coming into pets.js");
-  next();
-});
 
+//查看所有待領養的寵物
 router.get("/", (req, res) => {
   Pet.find({})
     .then((pet) => {
@@ -26,6 +29,7 @@ router.get("/", (req, res) => {
     });
 });
 
+//查看單一寵物
 router.get("/:pet_id", (req, res) => {
   let { pet_id } = req.params;
   Pet.findOne({ _id: pet_id })
@@ -38,6 +42,27 @@ router.get("/:pet_id", (req, res) => {
     });
 });
 
+//添加喜歡的寵物
+router.post("/:pet_id", async (req, res) => {
+    let { pet_id } = req.params;
+    let { user_id } = req.body;
+    console.log(req);
+    try {
+        let pet = await Pet.findOne({ _id: pet_id });
+        pet.adopters.push(user_id);
+        await pet.save();
+        res.send("添加成功");
+    } catch (err) {
+        res.send(err);
+    }
+})
+
+// router.get("profile/:user_id", (req, res) => {
+//     let { user_id } = req.params;
+//     Pet.find
+// })
+
+//post帶領養的寵物
 router.post("/postPet", upload.array("image"), async (req, res) => {
   const { error } = petValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);

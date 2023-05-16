@@ -24,7 +24,7 @@ const loginValidation = (data) => {
 const petValidation = (data) => {
 
     const schema = Joi.object({
-        //image: Joi.butter(),
+        image: Joi.required(),
         name: Joi.string().min(1).max(50).required(),
         petType: Joi.string().valid("貓", "狗").required(),
         species: Joi.string().min(1).max(50).required(),

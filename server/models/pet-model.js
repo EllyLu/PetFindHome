@@ -34,6 +34,10 @@ const petSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    adopters: {
+        type: [String],
+        default: [],
+    },
     date: {
         type: Date,
         default: Date.now,
