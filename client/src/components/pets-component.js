@@ -35,10 +35,10 @@ const PetComponent = (props) => {
                     <img src={`data:image/png;base64, ${pet.image[0]}`} alt="寵物"></img>
                   </div>
                   <ul class="list-unstyled mb-2">
-                    <li class="text-white mb-1">
+                    <li class="mb-1">
                       <i class="fa fa-vcard mr-2" aria-hidden="true"></i>{pet.petType}
                     </li>
-                    <li class="text-white mb-1">
+                    <li class="mb-1">
                       <i class="fa fa-bookmark mr-2" aria-hidden="true"></i>{pet.name}
                     </li>
                   </ul>    

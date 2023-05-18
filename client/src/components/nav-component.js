@@ -57,7 +57,7 @@ const NavComponent = (props) => {
                 
                 
                   <li className="nav-item">
-                    <Link className="nav-link" to="/postCourse">
+                    <Link className="nav-link" to="/postPet">
                       刊登送養
                     </Link>
                   </li>

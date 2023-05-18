@@ -5,7 +5,9 @@ import NavComponent from "./components/nav-component";
 import RegisterComponent from "./components/register-component";
 import LoginComponent from "./components/login-component";
 import PetComponent from "./components/pets-component";
+import PostPetComponent from "./components/postpet-component";
 import AuthService from "./services/auth.service";
+
 
 
 function App() {
@@ -21,6 +23,10 @@ function App() {
       setCurrentUser={setCurrentUser}
       />}/>
       <Route exact path="/pets" element={<PetComponent
+      currentUser={currentUser}
+      setCurrentUser={setCurrentUser}
+      />}/>
+      <Route exact path="/postPet" element={<PostPetComponent
       currentUser={currentUser}
       setCurrentUser={setCurrentUser}
       />}/>

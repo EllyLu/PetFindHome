@@ -2,13 +2,7 @@ const router = require("express").Router();
 const Pet = require("../models/pet-model");
 const petValidation = require("../validation").petValidation;
 const joi = require("joi");
-const multer = require("multer");
 
-const base64ToImage = (base64String) => {
-  const imageData = Buffer.from(base64String, "base64");
-  const imageUrl = `${imageData.toString("base64")}`;
-  return imageUrl;
-};
 
 // middleware
 router.use((req, res, next) => {
@@ -16,11 +10,7 @@ router.use((req, res, next) => {
     next();
   });
 
-//創建一個 Multer，設置圖片存儲位置和文件名
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 5242880 }, // 限制圖片大小為 5MB
-});
+
 
 //查看所有待領養的寵物
 router.get("/", (req, res) => {
@@ -28,7 +18,7 @@ router.get("/", (req, res) => {
     .then((pets) => {
       const updatedPets = pets.map((pet) => {
         const updatedImages = pet.image.map((base64String) =>
-          base64ToImage(base64String)
+          pet.base64ToImage(base64String)
         );
         return { ...pet.toObject(), image: updatedImages };
       });
@@ -74,7 +64,7 @@ router.get("/", (req, res) => {
 // })
 
 //post待領養的寵物
-router.post("/postPet", upload.array("image"), async (req, res) => {
+router.post("/postPet", Pet.upload, async (req, res) => {
   const { error } = petValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -94,7 +84,7 @@ router.post("/postPet", upload.array("image"), async (req, res) => {
     await newPet.save();
     res.status(200).send("新增成功");
   } catch (err) {
-    res.status(400).send("無法儲存您新增的資料");
+    res.status(400).send(err.errors.description.properties.message);
     console.log(err);
   }
 });

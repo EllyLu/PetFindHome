@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const multer = require("multer");
 
 const petSchema = mongoose.Schema({
     image: {
@@ -45,11 +46,16 @@ const petSchema = mongoose.Schema({
 
 })
 
-//在儲存之前將圖片轉為base64
-// petSchema.pre("save", function (next) {
-    
-//     this.image = Buffer.from(this.image).toString("base64");
-//     next();
-//   });
+petSchema.methods.base64ToImage = function (base64String) {
+    const imageData = Buffer.from(base64String, "base64");
+    const imageUrl = `${imageData.toString("base64")}`;
+    return imageUrl;
+  };
+
+//創建一個 Multer，設置圖片存儲位置和文件名
+petSchema.statics.upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5242880 }, // 限制圖片大小為 5MB
+  }).array("image");  
 
 module.exports = mongoose.model("Pet", petSchema);
