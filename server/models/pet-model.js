@@ -45,4 +45,11 @@ const petSchema = mongoose.Schema({
 
 })
 
+//在儲存之前將圖片轉為base64
+// petSchema.pre("save", function (next) {
+    
+//     this.image = Buffer.from(this.image).toString("base64");
+//     next();
+//   });
+
 module.exports = mongoose.model("Pet", petSchema);
