@@ -94,7 +94,7 @@ const PetProfileComponent = (props) => {
                 className="table"
                 style={{
                   borderRadius: "10px",
-                  border: "2px solid orange",
+                  border: "2px solid #FFB450",
                   borderCollapse: "collapse",
                 }}
               >
@@ -107,7 +107,7 @@ const PetProfileComponent = (props) => {
                         fontSize: "150%",
                         fontWeight: "bold",
                         color: "white",
-                        backgroundColor: "orange",
+                        backgroundColor: "#FFB450",
                       }}
                     >
                       {petData.name}
