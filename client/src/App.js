@@ -8,13 +8,12 @@ import PetComponent from "./components/pets-component";
 import PostPetComponent from "./components/postpet-component";
 import AuthService from "./services/auth.service";
 
-
-
 function App() {
   let [ currentUser, setCurrentUser ] = useState(AuthService.getCurrentUser());
+
   return (
   <BrowserRouter>
-   <NavComponent />
+   <NavComponent currentUser={currentUser} setCurrentUser={setCurrentUser}/>
     <Routes>
       <Route exact path="/" element={<HomeComponent/>}/>
       <Route exact path="/register" element={<RegisterComponent/>}/>

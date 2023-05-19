@@ -24,6 +24,7 @@ class PetService {
     //     } else {
     //         token = "";
     //     }
+    //     console.log(image);
     //     return axios.post(
     //         API_URL + "/postPet",
     //         { image, name, age, petType, species, description },

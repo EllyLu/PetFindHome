@@ -56,6 +56,6 @@ petSchema.methods.base64ToImage = function (base64String) {
 petSchema.statics.upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5242880 }, // 限制圖片大小為 5MB
-  }).array("image");  
+  }).array("images",5);  
 
 module.exports = mongoose.model("Pet", petSchema);

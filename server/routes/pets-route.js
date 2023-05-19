@@ -30,33 +30,33 @@ router.get("/", (req, res) => {
     });
 });
 
-// //查看單一寵物
-// router.get("/:pet_id", (req, res) => {
-//   let { pet_id } = req.params;
-//   Pet.findOne({ _id: pet_id })
-//     .populate("sender", ["username", "email", "phoneNumber"])
-//     .then((pet) => {
-//         return res.status(200).send(pet);
-//     })
-//     .catch((err) => {
-//       res.status(500).send("無法獲得資料");
-//     });
-// });
+//查看單一寵物
+router.get("/petProfile/:pet_id", (req, res) => {
+  let { pet_id } = req.params;
+  Pet.findOne({ _id: pet_id })
+    .populate("sender", ["username", "email", "phoneNumber"])
+    .then((pet) => {
+        return res.status(200).send(pet);
+    })
+    .catch((err) => {
+      res.status(500).send("無法獲得資料");
+    });
+});
 
-// //添加喜歡的寵物
-// router.post("/:pet_id", async (req, res) => {
-//     let { pet_id } = req.params;
-//     let { user_id } = req.body;
-//     console.log(req);
-//     try {
-//         let pet = await Pet.findOne({ _id: pet_id });
-//         pet.adopters.push(user_id);
-//         await pet.save();
-//         res.send("添加成功");
-//     } catch (err) {
-//         res.send(err);
-//     }
-// })
+//添加喜歡的寵物
+router.post("/petProfile/:pet_id", async (req, res) => {
+    let { pet_id } = req.params;
+    let { user_id } = req.body;
+    console.log(req);
+    try {
+        let pet = await Pet.findOne({ _id: pet_id });
+        pet.adopters.push(user_id);
+        await pet.save();
+        res.send("添加成功");
+    } catch (err) {
+        res.send(err);
+    }
+})
 
 // router.get("profile/:user_id", (req, res) => {
 //     let { user_id } = req.params;

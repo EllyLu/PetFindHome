@@ -49,7 +49,7 @@ const PostPetComponent = (props) => {
     <div style={{ padding: "3rem" }}>
       <div className="form-group">
         <div>
-          <label htmlFor="images">選擇圖片：</label>
+          <label htmlFor="image">選擇圖片：</label>
           <input
             type="file"
             id="images"

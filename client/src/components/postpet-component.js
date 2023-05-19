@@ -41,8 +41,9 @@ const PostPetComponent = (props) => {
   const postPet = () => {
     const formData = new FormData();
     images.forEach((image, index) => {
-      formData.append(`image${index + 1}`, image);
+      formData.append(`images`, image);
     });
+
     formData.append("name", name);
     formData.append("age", age);
     formData.append("petType", petType);
