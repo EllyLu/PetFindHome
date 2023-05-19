@@ -63,7 +63,7 @@ const PostPetComponent = (props) => {
 
   return (
     <div style={{ padding: "3rem" }}>
-      <div className="form-group">
+      <div className="form-group p-5 mb-4 rounded-3 col-md-6">
         <div>
           <label htmlFor="images">選擇圖片：</label>
           <input
@@ -71,20 +71,9 @@ const PostPetComponent = (props) => {
             id="images"
             accept="image/*"
             className="form-control"
-            style={{ width: "600px" }}
             multiple
             onChange={handleChangeImages}
           />
-        </div>
-        <div>
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={URL.createObjectURL(image)}
-              alt={`Pet ${index + 1}`}
-              style={{ width: "200px" }}
-            />
-          ))}
         </div>
         <br></br>    
         <div>
@@ -94,7 +83,7 @@ const PostPetComponent = (props) => {
             id="name"
             value={name}
             className="form-control"
-            style={{ width: "600px" }}
+            // style={{ width: "400px" }}
             onChange={handleChangeName}
           />
         </div>
@@ -105,7 +94,7 @@ const PostPetComponent = (props) => {
             id="petType"
             value={petType}
             className="form-control"
-            style={{ width: "600px" }}
+            // style={{ width: "400px" }}
             onChange={handleChangePetType}
           >
             <option value="">請選擇</option>
@@ -121,7 +110,7 @@ const PostPetComponent = (props) => {
             id="species"
             value={species}
             className="form-control"
-            style={{ width: "600px" }}
+            // style={{ width: "400px" }}
             onChange={handleChangeSpecies}
           />
         </div>
@@ -133,7 +122,7 @@ const PostPetComponent = (props) => {
             id="age"
             value={age}
             className="form-control"
-            style={{ width: "600px" }}
+            // style={{ width: "400px" }}
             onChange={handleChangeAge}
           />
         </div>
@@ -144,7 +133,7 @@ const PostPetComponent = (props) => {
             id="description"
             value={description}
             className="form-control"
-            style={{ width: "600px", height: "150px" }}
+            // style={{ width: "400px", height: "150px" }}
             onChange={handleChangeDescription}
           />
         </div>

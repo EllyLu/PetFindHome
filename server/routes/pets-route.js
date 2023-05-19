@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 
 //查看所有待領養的寵物
 router.get("/", (req, res) => {
-  Pet.find({})
+  Pet.find().sort({date: -1})
     .then((pets) => {
       const updatedPets = pets.map((pet) => {
         const updatedImages = pet.image.map((base64String) =>
