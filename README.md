@@ -1,6 +1,6 @@
 # 佩特找家寵物認養平台
 
-
+https://pet-find-home.vercel.app/
 
 
 ## 簡介
@@ -20,7 +20,7 @@
 - 寵物資料新增
 ## 使用技術
 - React
-- Javascript
+- JavaScript
 - Node.js
 - API
 - Express
