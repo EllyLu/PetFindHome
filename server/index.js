@@ -8,6 +8,7 @@ require("./config/passport")(passport);
 const cors = require("cors");
 const authRoute = require("./routes/auth-route");
 const petsRoute = require("./routes/pets-route");
+const port = process.env.PORT || 8000;
 
 //connect to MongoDB
 mongoose
@@ -32,6 +33,6 @@ app.use(
   petsRoute
 );
 
-app.listen(8000, () => {
+app.listen(port, () => {
   console.log("Server is running on port 8000");
 });
