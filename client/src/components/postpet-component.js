@@ -64,6 +64,11 @@ const PostPetComponent = (props) => {
   return (
     <div style={{ padding: "3rem" }}>
       <div className="form-group p-5 mb-4 rounded-3 col-md-6">
+        {message && (
+          <div className="alert alert-warning" role="alert">
+            {message}
+          </div>
+        )}
         <div>
           <label htmlFor="images">選擇圖片：</label>
           <input
@@ -143,13 +148,6 @@ const PostPetComponent = (props) => {
             新增寵物
           </button>
         </div>
-        <br />
-        <br />
-        {message && (
-          <div className="alert alert-warning" role="alert">
-            {message}
-          </div>
-        )}
       </div>
     </div>
   );
