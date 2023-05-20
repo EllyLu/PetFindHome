@@ -75,7 +75,7 @@ const PostPetComponent = (props) => {
             onChange={handleChangeImages}
           />
         </div>
-        <br></br>    
+        <br></br>
         <div>
           <label htmlFor="name">名字：</label>
           <input
@@ -87,7 +87,7 @@ const PostPetComponent = (props) => {
             onChange={handleChangeName}
           />
         </div>
-        <br></br>    
+        <br></br>
         <div>
           <label htmlFor="petType">寵物類型：</label>
           <select
@@ -100,8 +100,8 @@ const PostPetComponent = (props) => {
             <option value="">請選擇</option>
             <option value="貓">貓</option>
             <option value="狗">狗</option>
-          </select> 
-        </div> 
+          </select>
+        </div>
         <br></br>
         <div>
           <label htmlFor="species">品種：</label>
@@ -114,7 +114,7 @@ const PostPetComponent = (props) => {
             onChange={handleChangeSpecies}
           />
         </div>
-        <br></br>    
+        <br></br>
         <div>
           <label htmlFor="age">年齡：</label>
           <input
@@ -126,7 +126,7 @@ const PostPetComponent = (props) => {
             onChange={handleChangeAge}
           />
         </div>
-        <br></br>    
+        <br></br>
         <div>
           <label htmlFor="description">描述：</label>
           <textarea
@@ -137,15 +137,22 @@ const PostPetComponent = (props) => {
             onChange={handleChangeDescription}
           />
         </div>
-        <br></br>    
+        <br></br>
         <div>
           <button className="btn btn-primary" onClick={postPet}>
             新增寵物
           </button>
         </div>
+        <br />
+        <br />
+        {message && (
+          <div className="alert alert-warning" role="alert">
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default PostPetComponent; 
+export default PostPetComponent;
