@@ -20,7 +20,7 @@
 - 寵物資料新增
 ## 使用技術
 - React
-- Javascript
+- JavaScript
 - Node.js
 - API
 - Express
