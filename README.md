@@ -2,7 +2,9 @@
 
 https://pet-find-home.vercel.app/
 
-試用帳號1: linyu111@gmail.com 密碼: linyuyu  
+試用帳號:
+帳號① linyu111@gmail.com 密碼: linyuyu  
+②: 
 試用帳號2: qaz123@gmail.com 密碼: qaz123
 
 
