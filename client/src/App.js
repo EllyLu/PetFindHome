@@ -11,6 +11,7 @@ import AuthService from "./services/auth.service";
 
 function App() {
   let [ currentUser, setCurrentUser ] = useState(AuthService.getCurrentUser());
+  
   return (
   <BrowserRouter>
    <NavComponent currentUser={currentUser} setCurrentUser={setCurrentUser}/>

@@ -47,15 +47,14 @@ router.get("/petProfile/:pet_id", (req, res) => {
 //添加喜歡的寵物
 router.post("/petProfile/:pet_id", async (req, res) => {
   let { pet_id } = req.params;
-  let { user_id } = req.body;
-  console.log(req);
   try {
     let pet = await Pet.findOne({ _id: pet_id });
-    pet.adopters.push(user_id);
+    pet.adopters.push(req.user._id );
     await pet.save();
     res.send("添加成功");
   } catch (err) {
     res.send(err);
+    console.log(err);
   }
 });
 

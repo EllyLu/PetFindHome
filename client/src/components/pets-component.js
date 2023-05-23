@@ -51,7 +51,9 @@ const PetComponent = (props) => {
                     src={`data:image/png;base64, ${pet.image[0]}`}
                   ></img>
                   <div class="card-body">
-                    <h3 style={{ color: "orange" }}>{pet.name}</h3>
+                    <a href={`pets/petProfile/${pet._id}`} style={{textDecorationColor:"orange"}}>
+                      <h3 style={{ color: "orange" }}>{pet.name}</h3>
+                    </a>
                     <p class="card-text">年齡: {pet.age}</p>
                     <p class="card-text">品種: {pet.species}</p>
                     <p class="card-text">

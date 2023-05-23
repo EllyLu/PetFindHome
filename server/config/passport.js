@@ -12,7 +12,6 @@ module.exports = (passport) => {
       
       try {
         let foundUser = await User.findOne({ _id: jwt_payload._id });
-        console.log(foundUser);
         if (foundUser) {
           return done(null, foundUser); //req.user <= foundUser
         } else {

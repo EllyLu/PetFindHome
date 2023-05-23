@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import PetService from "../services/pet.service";
+import petService from "../services/pet.service";
 
 const PetProfileComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   let [petData, setPetData] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
-
+  let [addState, setAddState] = useState("有興趣");
+  const handleChangeAdd = (pet_id,user_id) => {
+    setAddState("已添加");
+    PetService.addAdopter(pet_id,user_id);
+    
+  }
   useEffect(() => {
     const currentURL = window.location.pathname;
     const _id = currentURL.substring(
       currentURL.indexOf("Profile/") + "Profile".length + 1
     );
     console.log("Using effect in pets/petProfile");
-    console.log("id: " + _id);
+
     PetService.getOnePet(_id)
       .then((data) => {
         setPetData(data.data);
@@ -115,10 +121,11 @@ const PetProfileComponent = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  
                   <tr>
                     <td className="w-25">物種</td>
-                    <td className="w-75" colSpan="2">{petData.petType}</td>
+                    <td className="w-75" colSpan="2">
+                      {petData.petType}
+                    </td>
                   </tr>
                   <tr>
                     <td>品種</td>
@@ -127,6 +134,10 @@ const PetProfileComponent = (props) => {
                   <tr>
                     <td>年齡</td>
                     <td colSpan="2">{petData.age}</td>
+                  </tr>
+                  <tr>
+                    <td>送養人</td>
+                    <td colSpan="2">{petData.sender.username}</td>
                   </tr>
                   <tr>
                     <td>送養人信箱</td>
@@ -138,54 +149,41 @@ const PetProfileComponent = (props) => {
                   </tr>
                 </tbody>
               </table>
-              </div>
+              {petData.adopters.indexOf(currentUser.user._id) == -1 && (
+                <button
+                  type="button"
+                  class="btn"
+                  onClick={() => handleChangeAdd(petData._id,currentUser.user._id)}
+                  style={{
+                    fontWeight: "bold",
+                    color: "white",
+                    backgroundColor: "#FFB450",
+                    float: "right",
+                  }}
+                >
+                  {addState}
+                </button>
+              )}
+              {petData.adopters.indexOf(currentUser.user._id) !== -1 && (
+                <button
+                  type="button"
+                  class="btn"
+                  style={{
+                    fontWeight: "bold",
+                    color: "white",
+                    backgroundColor: "#FFB450",
+                    float: "right",
+                  }}
+                >
+                  已添加
+                </button>
+              )}
             </div>
           </div>
+        </div>
       )}
     </div>
   );
 };
-
-// <div>
-//   <div class="album py-5 bg-body-tertiary">
-//     <div class="container">
-//       {isLoading ? (
-//         <div>
-//           <p style={{ color: "orange",fontSize:"2rem" }}></p>
-//         </div>
-//       ) : (
-//         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-//           <div class="col">
-//             <div class="card border-warning">
-//               <rect width="100%" height="100%" fill="#55595c"></rect>
-//               <img
-//                 class="bd-placeholder-img card-img-top"
-//                 width="100%"
-//                 height="300"
-//                 src={`data:image/png;base64, ${petData.image[0]}`}
-//               ></img>
-//               <div class="card-body">
-//                 <h3 style={{ color: "orange" }}>{petData.name}</h3>
-//                 <p class="card-text">年齡: {petData.age}</p>
-//                 <p class="card-text">品種: {petData.species}</p>
-//                 <p class="card-text">{petData.description}</p>
-//                 <div class="d-flex justify-content-between align-items-center">
-//                   <div class="btn-group">
-//                     <button type="button" class="btn btn-sm btn-warning">
-//                       詳細資料
-//                     </button>
-//                   </div>
-//                   <small class="text-body-secondary">
-//                     {petData.date.substring(0, 10)}
-//                   </small>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   </div>
-// </div>
 
 export default PetProfileComponent;

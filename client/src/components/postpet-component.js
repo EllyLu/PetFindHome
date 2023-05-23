@@ -88,7 +88,6 @@ const PostPetComponent = (props) => {
             id="name"
             value={name}
             className="form-control"
-            // style={{ width: "400px" }}
             onChange={handleChangeName}
           />
         </div>
@@ -99,7 +98,6 @@ const PostPetComponent = (props) => {
             id="petType"
             value={petType}
             className="form-control"
-            // style={{ width: "400px" }}
             onChange={handleChangePetType}
           >
             <option value="">請選擇</option>
@@ -115,7 +113,6 @@ const PostPetComponent = (props) => {
             id="species"
             value={species}
             className="form-control"
-            // style={{ width: "400px" }}
             onChange={handleChangeSpecies}
           />
         </div>
@@ -127,7 +124,6 @@ const PostPetComponent = (props) => {
             id="age"
             value={age}
             className="form-control"
-            // style={{ width: "400px" }}
             onChange={handleChangeAge}
           />
         </div>
@@ -138,7 +134,6 @@ const PostPetComponent = (props) => {
             id="description"
             value={description}
             className="form-control"
-            // style={{ width: "400px", height: "150px" }}
             onChange={handleChangeDescription}
           />
         </div>

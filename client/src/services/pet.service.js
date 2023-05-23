@@ -1,6 +1,6 @@
 import axios from "axios";
 const API_URL = "https://pet-find-home-server.vercel.app/api/pets";
-//const API_URL = "http://localhost:8000/api/pets";
+// const API_URL = "http://localhost:8000/api/pets";
 
 class PetService {
     getAllPet() {
@@ -47,6 +47,21 @@ class PetService {
             },
           })
       }
+
+    addAdopter(pet_id,user_id) {
+    let token;
+    console.log("user_id in pet.service: " + user_id);
+    if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+        token = "";
+    }
+    return axios.post(API_URL + "/petProfile/" + pet_id, user_id, {
+        headers: {
+            Authorization: token,
+        }
+    });
+    }
 }
 
 export default new PetService();
