@@ -7,6 +7,7 @@ import LoginComponent from "./components/login-component";
 import PetComponent from "./components/pets-component";
 import PostPetComponent from "./components/postpet-component";
 import PetProfileComponent from "./components/petProfile-component";
+import UserProfileComponent from "./components/userProfile-component";
 import AuthService from "./services/auth.service";
 
 function App() {
@@ -31,6 +32,10 @@ function App() {
       setCurrentUser={setCurrentUser}
       />}/>
       <Route exact path="/pets/petProfile/:id" element={<PetProfileComponent
+      currentUser={currentUser}
+      setCurrentUser={setCurrentUser}
+      />}/>
+      <Route exact path="/pets/userProfile" element={<UserProfileComponent
       currentUser={currentUser}
       setCurrentUser={setCurrentUser}
       />}/>

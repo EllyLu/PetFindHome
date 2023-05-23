@@ -31,6 +31,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
 router.post("/login", async (req, res) => {
   //驗證格式  
   const { error } = loginValidation(req.body);

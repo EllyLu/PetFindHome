@@ -58,10 +58,23 @@ router.post("/petProfile/:pet_id", async (req, res) => {
   }
 });
 
-// router.get("profile/:user_id", (req, res) => {
-//     let { user_id } = req.params;
-//     Pet.find
-// })
+router.get("/userProfile", async (req, res) => {
+    try{
+      const pets = await Pet.find({ $or: [
+        {sender: req.user._id}, {adopters: { $in: [req.user.id]}}
+      ] })
+      const updatedPets = pets.map((pet) => {
+        const updatedImages = pet.image.map((base64String) =>
+          pet.base64ToImage(base64String)
+        );
+        return { ...pet.toObject(), image: updatedImages };
+      });
+      res.send(updatedPets);
+    } catch (err) {
+      res.send(err);
+      console.log(err);
+    }
+})
 
 //post待領養的寵物
 router.post("/postPet", Pet.upload, async (req, res) => {
