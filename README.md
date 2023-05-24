@@ -11,17 +11,20 @@ https://pet-find-home.vercel.app/
 
 ## 網頁架構
 ### 前端
-- components
-   - home 形象首頁
-   - login 登入頁面
-   - register 註冊頁面
-   - userProfile 查看有興趣領養和曾發佈的寵物
-   - pets 查看待領養寵物頁面
-   - petProfile 查看單一寵物頁面
-   - postPet 發佈送養寵物頁面
- - services 將前端請求發送至後端
-   - auth 發送登入/登出/註冊相關請求
-   - pets 發送與寵物相關的請求
+- src
+   - App.js 路徑設定 
+   - components
+      - home 形象首頁
+      - login 登入頁面
+      - register 註冊頁面
+      - userProfile 查看有興趣領養和曾發佈的寵物
+      - pets 查看待領養寵物頁面
+      - petProfile 查看單一寵物頁面
+      - postPet 發佈送養寵物頁面
+
+    - services 將前端請求發送至後端
+      - auth 發送登入/登出/註冊相關請求
+      - pets 發送與寵物相關的請求
 
 ### 後端
 - 登入系統
