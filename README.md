@@ -10,7 +10,7 @@ https://pet-find-home.vercel.app/
 2. qaz123@gmail.com 密碼: qaz123
 
 ## 網頁架構
-### 前端
+### 前端 (client)
 - src
    - App.js 路徑設定 
    - components
@@ -26,15 +26,22 @@ https://pet-find-home.vercel.app/
       - auth 發送登入/登出/註冊相關請求
       - pets 發送與寵物相關的請求
 
-### 後端
-- 登入系統
-- 客戶端認證（JWT）
-- 客戶/寵物資料增刪改查
+### 後端 (server)
+- config
+   - passport JWT認證
+- models
+   - pet-model 寵物資料schema
+   - user-model 使用者資料schema
+- routes
+   - auth 處裡身分認證和登入請求
+   - pets 處裡寵物資料相關請求
+
 ## 使用技術
 - React
 - JavaScript
 - Node.js
 - API
+- JSON Web Token（JWT）
 - Express
 - MongoDB
-- JSON Web Token（JWT）
+
