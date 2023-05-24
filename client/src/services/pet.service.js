@@ -5,6 +5,10 @@ const API_URL = "http://localhost:8000/api/pets";
 class PetService {
   getAllPet() {
     let token;
+    const params = Object.fromEntries(
+      new URLSearchParams(window.location.search)
+    )
+    console.log(params);
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
     } else {
@@ -12,6 +16,7 @@ class PetService {
     }
 
     return axios.get(API_URL, {
+      params,
       headers: {
         Authorization: token,
       },
@@ -41,11 +46,26 @@ class PetService {
       token = "";
     }
 
-    return axios.get(API_URL + "/userProfile", {
-        headers: {
-            Authorization: token,
-          },
-    })
+    return axios.get(API_URL + "/userProfile/addPet", {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
+
+  getUserPostPet() {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+
+    return axios.get(API_URL + "/userProfile/postPet", {
+      headers: {
+        Authorization: token,
+      },
+    });
   }
 
   post(formData) {

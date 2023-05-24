@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PetService from "../services/pet.service";
-import AuthService from "../services/auth.service";
 
 const UserProfileComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   let [AddPetData, setAddPetData] = useState([]);
+  let [PostPetData, setPostPetData] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
+  let [isScreenSmall, setIsScreenSmall] = useState(false);
+
 
   useEffect(() => {
     console.log("Using effect in pets");
@@ -13,72 +15,141 @@ const UserProfileComponent = (props) => {
     PetService.getUserAddPet()
       .then((data) => {
         setAddPetData(data.data);
-        //setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        //setIsLoading(false);
+      });
+
+    PetService.getUserPostPet()
+      .then((data) => {
+        setIsLoading(false);
+        setPostPetData(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
   return (
-    <div style={{ padding: "3rem" }}>
+    <div class="container pt-5">
       {!currentUser && (
         <p style={{ color: "orange", fontSize: "2rem" }}> 您尚未登入</p>
       )}
-      {currentUser && (
-        <div>
-          <div class="row">
-            <div class="col">
-              <h3 style={{ fontWeight: "bold", color: "orange" }}>
-                有興趣的寵物們:
-              </h3>
+      {isLoading && (
+        <div
+          className="d-flex flex-column justify-content-center align-items-center"
+          style={{ height: "80vh" }}
+        >
+          <div className="d-flex align-items-center">
+            <p
+              style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
+            >
+              Loading...
+            </p>
+            <div className="spinner-border text-warning" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
-          <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-1">
-            {AddPetData
-              //.filter(pet => pet.adopters.indexOf(currentUser.user._id))
-              .map((pet, index) => (
-                <div class="col" key={index}>
-                  <div class="card border-warning">
-                    <rect width="100%" height="100%" fill="#55595c"></rect>
-                    <img
-                      class="bd-placeholder-img card-img-top"
-                      width="100%"
-                      height="220"
-                      src={`data:image/png;base64, ${pet.image[0]}`}
-                    ></img>
-                    <div class="card-body">
-                      <a
-                        href={`pets/petProfile/${pet._id}`}
-                        style={{ textDecorationColor: "orange" }}
-                      >
-                        <h4 style={{ color: "orange" }}>{pet.name}</h4>
-                      </a>
-                      <p class="card-text">年齡: {pet.age}</p>
-                      <p class="card-text">品種: {pet.species}</p>
-                      <p class="card-text">
-                        {pet.description.substring(0, 18)}...
-                      </p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-warning"
-                            //onClick={() => handleTakeToPetProfile(pet._id)}
-                          >
-                            詳細資料
-                          </button>
-                        </div>
-                        <small class="text-body-secondary">
-                          {pet.date.substring(0, 10)}
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+        </div>
+      )}
+      {!isLoading && currentUser && (
+        <div>
+          <div class="row">
+            <h3 style={{ fontWeight: "bold", color: "orange" }}>
+              有興趣的寵物們:
+            </h3>
           </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">圖片</th>
+                <th scope="col">名稱</th>
+                <th scope="col">年齡</th>
+                <th scope="col">品種</th>
+                <th scope="col">送養人資訊</th>
+                <th className="d-none d-md-inline" style={{ borderBottom: "none" }} scope="col">發佈日期</th>
+              </tr>
+            </thead>
+            <tbody>
+              {AddPetData.map((pet, index) => (
+              
+                <tr key={index}>
+                  <td>
+                    <img
+                      className="bd-placeholder-img"
+                      width="100"
+                      height="100"
+                      src={`data:image/png;base64, ${pet.image[0]}`}
+                      alt=""
+                    />
+                    
+                  </td>
+                  <td>
+                    <a
+                      href={`petProfile/${pet._id}`}
+                      style={{ textDecorationColor: "orange" }}
+                    >
+                      <p style={{ color: "orange" }}>{pet.name}</p>
+                    </a>
+                  </td>
+                  <td>{pet.age}</td>
+                  <td>{pet.species}</td>
+                  <td>
+                    <p>
+                      姓名: {pet.sender.username}
+                      <br />
+                      Email: {pet.sender.email}
+                    </p>
+                  </td>
+                  <td ><p className="d-none d-md-inline">{pet.date.substring(0, 10)}</p></td>
+                </tr>
+                
+              ))}
+            </tbody>
+            
+          </table>
+          <div class="row">
+            <h3 style={{ fontWeight: "bold", color: "orange" }}>
+              你發佈的寵物們:
+            </h3>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">圖片</th>
+                <th scope="col">名稱</th>
+                <th scope="col">年齡</th>
+                <th scope="col">品種</th>
+                <th className="hide-on-sm" scope="col">發佈日期</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PostPetData.map((pet, index) => (
+                <tr key={index}>
+                  <td>
+                    <img
+                      class="bd-placeholder-img"
+                      width="100"
+                      height="100"
+                      src={`data:image/png;base64, ${pet.image[0]}`}
+                      alt=""
+                    ></img>
+                  </td>
+                  <td>
+                    <a
+                      href={`petProfile/${pet._id}`}
+                      style={{ textDecorationColor: "orange" }}
+                    >
+                      <p style={{ color: "orange" }}>{pet.name}</p>
+                    </a>
+                  </td>
+                  <td>{pet.age}</td>
+                  <td>{pet.species}</td>
+                  <td>{pet.date.substring(0, 10)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

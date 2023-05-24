@@ -53,7 +53,7 @@ const PostPetComponent = (props) => {
     PetService.post(formData)
       .then(() => {
         window.alert("新增成功");
-        navigate("/pets");
+        navigate("/pets/userProfile");
       })
       .catch((error) => {
         console.log(error.response);
@@ -129,7 +129,7 @@ const PostPetComponent = (props) => {
         </div>
         <br></br>
         <div>
-          <label htmlFor="description">描述：</label>
+          <label htmlFor="description">描述(字數至少10個字)：</label>
           <textarea
             id="description"
             value={description}

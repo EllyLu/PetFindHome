@@ -34,9 +34,21 @@ const PetProfileComponent = (props) => {
   return (
     <div className="container py-5">
       {isLoading ? (
-        <div>
-          <p style={{ color: "orange", fontSize: "2rem" }}></p>
+        <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <div className="d-flex align-items-center">
+          <p
+            style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
+          >
+            Loading...
+          </p>
+          <div className="spinner-border text-warning" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
+      </div>
       ) : (
         <div className="row">
           <div className="col-md-6">

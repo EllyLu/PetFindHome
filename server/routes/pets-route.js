@@ -11,8 +11,10 @@ router.use((req, res, next) => {
 
 //查看所有待領養的寵物
 router.get("/", (req, res) => {
-  Pet.find().sort({date: -1})
+  Pet.find({ petType : req.query.petType})
+    .sort({ date: -1 })
     .then((pets) => {
+      
       const updatedPets = pets.map((pet) => {
         const updatedImages = pet.image.map((base64String) =>
           pet.base64ToImage(base64String)
@@ -49,7 +51,7 @@ router.post("/petProfile/:pet_id", async (req, res) => {
   let { pet_id } = req.params;
   try {
     let pet = await Pet.findOne({ _id: pet_id });
-    pet.adopters.push(req.user._id );
+    pet.adopters.push(req.user._id);
     await pet.save();
     res.send("添加成功");
   } catch (err) {
@@ -58,23 +60,42 @@ router.post("/petProfile/:pet_id", async (req, res) => {
   }
 });
 
-router.get("/userProfile", async (req, res) => {
-    try{
-      const pets = await Pet.find({ $or: [
-        {sender: req.user._id}, {adopters: { $in: [req.user.id]}}
-      ] })
-      const updatedPets = pets.map((pet) => {
-        const updatedImages = pet.image.map((base64String) =>
-          pet.base64ToImage(base64String)
-        );
-        return { ...pet.toObject(), image: updatedImages };
-      });
-      res.send(updatedPets);
-    } catch (err) {
-      res.send(err);
-      console.log(err);
-    }
-})
+// 搜尋添加至清單的寵物
+router.get("/userProfile/addPet", async (req, res) => {
+  try {
+    const pets = await Pet.find({ adopters: { $in: [req.user.id] } }).populate(
+      "sender",
+      ["username", "email", "phoneNumber"]
+    );
+    const updatedPets = pets.map((pet) => {
+      const updatedImages = pet.image.map((base64String) =>
+        pet.base64ToImage(base64String)
+      );
+      return { ...pet.toObject(), image: updatedImages };
+    });
+    res.send(updatedPets);
+  } catch (err) {
+    res.send(err);
+    console.log(err);
+  }
+});
+
+//獲得發佈的寵物
+router.get("/userProfile/postPet", async (req, res) => {
+  try {
+    const pets = await Pet.find({ sender: req.user.id });
+    const updatedPets = pets.map((pet) => {
+      const updatedImages = pet.image.map((base64String) =>
+        pet.base64ToImage(base64String)
+      );
+      return { ...pet.toObject(), image: updatedImages };
+    });
+    res.send(updatedPets);
+  } catch (err) {
+    res.send(err);
+    console.log(err);
+  }
+});
 
 //post待領養的寵物
 router.post("/postPet", Pet.upload, async (req, res) => {
