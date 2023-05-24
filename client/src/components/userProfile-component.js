@@ -5,8 +5,8 @@ const UserProfileComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   let [AddPetData, setAddPetData] = useState([]);
   let [PostPetData, setPostPetData] = useState([]);
-  let [isLoading, setIsLoading] = useState(true);
-  let [isScreenSmall, setIsScreenSmall] = useState(false);
+  let [AddPetIsLoading, setAddPetIsLoading] = useState(true);
+  let [PostPetIsLoading, setPostPetIsLoading] = useState(true);
 
 
   useEffect(() => {
@@ -15,6 +15,7 @@ const UserProfileComponent = (props) => {
     PetService.getUserAddPet()
       .then((data) => {
         setAddPetData(data.data);
+        setAddPetIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -22,8 +23,8 @@ const UserProfileComponent = (props) => {
 
     PetService.getUserPostPet()
       .then((data) => {
-        setIsLoading(false);
         setPostPetData(data.data);
+        setPostPetIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -31,11 +32,22 @@ const UserProfileComponent = (props) => {
   }, []);
 
   return (
-    <div class="container pt-5">
+    <div className="container pt-5">
       {!currentUser && (
-        <p style={{ color: "orange", fontSize: "2rem" }}> 您尚未登入</p>
+        <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <div className="d-flex align-items-center">
+          <p
+            style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
+          >
+            您尚未登入
+          </p>
+        </div>
+      </div>
       )}
-      {isLoading && (
+      {currentUser && AddPetIsLoading && PostPetIsLoading && (
         <div
           className="d-flex flex-column justify-content-center align-items-center"
           style={{ height: "80vh" }}
@@ -52,14 +64,14 @@ const UserProfileComponent = (props) => {
           </div>
         </div>
       )}
-      {!isLoading && currentUser && (
+      {!AddPetIsLoading && !PostPetIsLoading && currentUser && (
         <div>
-          <div class="row">
+          <div className="row">
             <h3 style={{ fontWeight: "bold", color: "orange" }}>
-              有興趣的寵物們:
+              你有興趣的寵物:
             </h3>
           </div>
-          <table class="table table-striped">
+          <table className="table table-striped">
             <thead>
               <tr>
                 <th scope="col">圖片</th>
@@ -108,12 +120,12 @@ const UserProfileComponent = (props) => {
             </tbody>
             
           </table>
-          <div class="row">
+          <div className="row">
             <h3 style={{ fontWeight: "bold", color: "orange" }}>
-              你發佈的寵物們:
+              你發佈的寵物:
             </h3>
           </div>
-          <table class="table table-striped">
+          <table className="table table-striped">
             <thead>
               <tr>
                 <th scope="col">圖片</th>
@@ -128,7 +140,7 @@ const UserProfileComponent = (props) => {
                 <tr key={index}>
                   <td>
                     <img
-                      class="bd-placeholder-img"
+                      className="bd-placeholder-img"
                       width="100"
                       height="100"
                       src={`data:image/png;base64, ${pet.image[0]}`}

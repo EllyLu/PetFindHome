@@ -62,8 +62,24 @@ const PostPetComponent = (props) => {
   };
 
   return (
+    
     <div style={{ padding: "3rem" }}>
-      <div className="form-group p-5 mb-4 rounded-3 col-md-6">
+      {!currentUser && (
+        <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <div className="d-flex align-items-center">
+          <p
+            style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
+          >
+            您尚未登入
+          </p>
+        </div>
+      </div>
+      )}
+      {currentUser && (
+        <div className="form-group p-5 mb-4 rounded-3 col-md-6">
         {message && (
           <div className="alert alert-warning" role="alert">
             {message}
@@ -144,6 +160,9 @@ const PostPetComponent = (props) => {
           </button>
         </div>
       </div>
+      )
+      }
+      
     </div>
   );
 };

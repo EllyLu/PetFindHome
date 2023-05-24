@@ -33,7 +33,21 @@ const PetProfileComponent = (props) => {
 
   return (
     <div className="container py-5">
-      {isLoading ? (
+      {!currentUser && (
+        <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <div className="d-flex align-items-center">
+          <p
+            style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
+          >
+            您尚未登入
+          </p>
+        </div>
+      </div>
+      )}
+      {currentUser && isLoading ? (
         <div
         className="d-flex flex-column justify-content-center align-items-center"
         style={{ height: "80vh" }}
@@ -161,10 +175,10 @@ const PetProfileComponent = (props) => {
                   </tr>
                 </tbody>
               </table>
-              {petData.adopters.indexOf(currentUser.user._id) == -1 && (
+              {petData.adopters.indexOf(currentUser.user._id) === -1 && (
                 <button
                   type="button"
-                  class="btn"
+                  className="btn"
                   onClick={() => handleChangeAdd(petData._id,currentUser.user._id)}
                   style={{
                     fontWeight: "bold",
@@ -179,7 +193,7 @@ const PetProfileComponent = (props) => {
               {petData.adopters.indexOf(currentUser.user._id) !== -1 && (
                 <button
                   type="button"
-                  class="btn"
+                  className="btn"
                   style={{
                     fontWeight: "bold",
                     color: "white",

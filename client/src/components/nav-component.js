@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 const NavComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   const navigate = useNavigate();
   const handleLogout = () => {
+    AuthService.logout();
     window.alert("登出成功");
     navigate("/");
     setCurrentUser(null);
+
   };
 
   return (
@@ -100,54 +103,9 @@ const NavComponent = (props) => {
                 </li>
               )}
               {currentUser && (
-                // <li>
-                //   <button
-                //     class="navbar-toggler"
-                //     type="button"
-                //     data-bs-toggle="collapse"
-                //     data-bs-target="#navbarNavDarkDropdown"
-                //     aria-controls="navbarNavDarkDropdown"
-                //     aria-expanded="false"
-                //     aria-label="Toggle navigation"
-                //   >
-                //     <span class="navbar-toggler-icon"></span>
-                //   </button>
-                //   <div
-                //     class="collapse navbar-collapse"
-                //     id="navbarNavDarkDropdown"
-                //   >
-                //     <ul class="navbar-nav">
-                //       <li class="nav-item dropdown">
-                //         <a
-                //           class="nav-link dropdown-toggle"
-                //           href="/pets"
-                //           id="navbarDarkDropdownMenuLink"
-                //           role="button"
-                //           data-bs-toggle="dropdown"
-                //           aria-expanded="false"
-                //           style={{ color: "#FFFFFF" }}
-                //         >
-                //           領養
-                //         </a>
-                //         <ul class="dropdown-menu dropdown-menu-end">
-                //           <li>
-                //             <a class="dropdown-item" href="/pets?petType=貓">
-                //               貓
-                //             </a>
-                //           </li>
-                //           <li>
-                //             <a class="dropdown-item" href="/pets?petType=狗">
-                //               狗
-                //             </a>
-                //           </li>
-                //         </ul>
-                //       </li>
-                //     </ul>
-                //   </div>
-                // </li>
-                <li class="nav-item dropdown">
+                <li className="nav-item dropdown">
   <Link
-    class="nav-link dropdown-toggle"
+    className="nav-link dropdown-toggle"
     id="navbarDarkDropdownMenuLink"
     role="button"
     data-bs-toggle="dropdown"
@@ -157,14 +115,14 @@ const NavComponent = (props) => {
   >
     領養
   </Link>
-  <ul class="dropdown-menu dropdown-menu-end">
+  <ul className="dropdown-menu dropdown-menu-end">
     <li>
-      <a class="dropdown-item" style={{color:"#FFB450"}} href="/pets?petType=貓">
+      <a className="dropdown-item" style={{color:"#FFB450"}} href="/pets?petType=貓">
         貓
       </a>
     </li>
     <li>
-      <a class="dropdown-item"  style={{color:"#FFB450"}} href="/pets?petType=狗">
+      <a className="dropdown-item"  style={{color:"#FFB450"}} href="/pets?petType=狗">
         狗
       </a>
     </li>
