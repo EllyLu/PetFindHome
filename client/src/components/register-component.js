@@ -34,7 +34,7 @@ const RegisterComponent = () => {
     <div className="form-group p-5 mb-4 rounded-3 col-md-6">
       <div>
        {message && <div className="alert alert-danger"> {message} </div>}
-        <div>
+       <div className="form-group">
           <label htmlFor="username">姓名</label>
           <input
            onChange={handleChangeUsername}
