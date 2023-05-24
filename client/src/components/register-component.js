@@ -31,7 +31,7 @@ const RegisterComponent = () => {
   }
  
   return (
-    <div style={{ padding: "3rem" }} className="col-md-12">
+    <div className="form-group p-5 mb-4 rounded-3 col-md-6">
       <div>
        {message && <div className="alert alert-danger"> {message} </div>}
         <div>
