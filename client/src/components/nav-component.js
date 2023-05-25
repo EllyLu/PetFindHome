@@ -98,7 +98,7 @@ const NavComponent = (props) => {
                     style={{ color: "#FFFFFF" }}
                     to="/pets/userProfile"
                   >
-                    毛孩檔案
+                    我的檔案
                   </Link>
                 </li>
               )}
