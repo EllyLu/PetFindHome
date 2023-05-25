@@ -86,7 +86,7 @@ const PostPetComponent = (props) => {
           </div>
         )}
         <div>
-          <label htmlFor="images">選擇圖片：</label>
+          <label htmlFor="images">選擇圖片(需小於5MB)：</label>
           <input
             type="file"
             id="images"
