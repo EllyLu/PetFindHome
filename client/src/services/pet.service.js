@@ -7,8 +7,7 @@ class PetService {
     let token;
     const params = Object.fromEntries(
       new URLSearchParams(window.location.search)
-    )
-    console.log(params);
+    );
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
     } else {
@@ -83,6 +82,24 @@ class PetService {
     });
   }
 
+  deletePostPet(pet_id, sender_id) {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+
+    return axios.delete(
+      `${API_URL}/userProfile/deletePostPet/${pet_id}/${sender_id}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+  }
+
   addAdopter(pet_id, user_id) {
     let token;
     if (localStorage.getItem("user")) {
@@ -95,6 +112,24 @@ class PetService {
         Authorization: token,
       },
     });
+  }
+
+  removeAddPet(pet_id, user_id) {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+    return axios.patch(
+      API_URL + "/userProfile/removeAddPet",
+      { pet_id, user_id },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
   }
 }
 

@@ -8,6 +8,43 @@ const UserProfileComponent = (props) => {
   let [AddPetIsLoading, setAddPetIsLoading] = useState(true);
   let [PostPetIsLoading, setPostPetIsLoading] = useState(true);
 
+  const handleRemoveAddPet = (index, pet_id, user_id) => {
+    PetService.removeAddPet(pet_id, user_id)
+      .then(() => {
+        window.alert("已從清單中移除");
+        AddPetData.splice(index, 1);
+
+        setAddPetData((prevData) => {
+          const newData = [...prevData];
+          newData.splice(index, 1);
+          return newData;
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleDeletePostPet = (index, pet_id, sender_id) => {
+    if (
+      window.confirm("確定刪除該筆資料嗎? 請注意，刪除後將不會出現在領養頁面")
+    ) {
+      PetService.deletePostPet(pet_id, sender_id)
+        .then(() => {
+          window.alert("已刪除資料");
+          AddPetData.splice(index, 1);
+
+          setPostPetData((prevData) => {
+            const newData = [...prevData];
+            newData.splice(index, 1);
+            return newData;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   useEffect(() => {
     console.log("Using effect in pets");
@@ -35,17 +72,17 @@ const UserProfileComponent = (props) => {
     <div className="container pt-5">
       {!currentUser && (
         <div
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{ height: "80vh" }}
-      >
-        <div className="d-flex align-items-center">
-          <p
-            style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
-          >
-            您尚未登入
-          </p>
+          className="d-flex flex-column justify-content-center align-items-center"
+          style={{ height: "80vh" }}
+        >
+          <div className="d-flex align-items-center">
+            <p
+              style={{ color: "orange", fontSize: "2rem", marginRight: "10px" }}
+            >
+              您尚未登入
+            </p>
+          </div>
         </div>
-      </div>
       )}
       {currentUser && AddPetIsLoading && PostPetIsLoading && (
         <div
@@ -79,12 +116,18 @@ const UserProfileComponent = (props) => {
                 <th scope="col">年齡</th>
                 <th scope="col">品種</th>
                 <th scope="col">送養人資訊</th>
-                <th className="d-none d-md-inline" style={{ borderBottom: "none" }} scope="col">發佈日期</th>
+                <th
+                  className="d-none d-md-inline"
+                  style={{ borderBottom: "none" }}
+                  scope="col"
+                >
+                  發佈日期
+                </th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {AddPetData.map((pet, index) => (
-              
                 <tr key={index}>
                   <td>
                     <img
@@ -94,7 +137,6 @@ const UserProfileComponent = (props) => {
                       src={`data:image/png;base64, ${pet.image[0]}`}
                       alt=""
                     />
-                    
                   </td>
                   <td>
                     <a
@@ -113,12 +155,22 @@ const UserProfileComponent = (props) => {
                       Email: {pet.sender.email}
                     </p>
                   </td>
-                  <td ><p className="d-none d-md-inline">{pet.date.substring(0, 10)}</p></td>
+                  <td>
+                    <p className="d-none d-md-inline">
+                      {pet.date.substring(0, 10)}
+                    </p>
+                  </td>
+                  <td>
+                    <a
+                      href="#"
+                      onClick={() => handleRemoveAddPet(index, pet._id)}
+                    >
+                      <p>刪除</p>
+                    </a>
+                  </td>
                 </tr>
-                
               ))}
             </tbody>
-            
           </table>
           <div className="row">
             <h3 style={{ fontWeight: "bold", color: "orange" }}>
@@ -132,7 +184,10 @@ const UserProfileComponent = (props) => {
                 <th scope="col">名稱</th>
                 <th scope="col">年齡</th>
                 <th scope="col">品種</th>
-                <th className="hide-on-sm" scope="col">發佈日期</th>
+                <th className="hide-on-sm" scope="col">
+                  發佈日期
+                </th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -158,6 +213,16 @@ const UserProfileComponent = (props) => {
                   <td>{pet.age}</td>
                   <td>{pet.species}</td>
                   <td>{pet.date.substring(0, 10)}</td>
+                  <td>
+                    <a
+                      href="#"
+                      onClick={() =>
+                        handleDeletePostPet(index, pet._id, pet.sender)
+                      }
+                    >
+                      <p>刪除</p>
+                    </a>
+                  </td>
                 </tr>
               ))}
             </tbody>
