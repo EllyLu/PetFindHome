@@ -163,7 +163,7 @@ const UserProfileComponent = (props) => {
                   <td>
                     <button
                       className="btn btn-link"
-                      onClick={() => handleRemoveAddPet(index, pet._id)}
+                      onClick={() => handleRemoveAddPet(index, pet._id, currentUser.user._id)}
                     >
                       <p>刪除</p>
                     </button>
@@ -214,14 +214,14 @@ const UserProfileComponent = (props) => {
                   <td>{pet.species}</td>
                   <td>{pet.date.substring(0, 10)}</td>
                   <td>
-                    <a
-                      href="#"
+                    <button
+                      className="btn btn-link"
                       onClick={() =>
                         handleDeletePostPet(index, pet._id, pet.sender)
                       }
                     >
                       <p>刪除</p>
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))}
