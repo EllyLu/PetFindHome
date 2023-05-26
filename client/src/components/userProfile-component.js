@@ -162,7 +162,7 @@ const UserProfileComponent = (props) => {
                   </td>
                   <td>
                     <button
-                      style={{border:"none"}}
+                      className="btn btn-link"
                       onClick={() => handleRemoveAddPet(index, pet._id)}
                     >
                       <p>刪除</p>
