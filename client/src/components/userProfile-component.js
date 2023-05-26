@@ -139,12 +139,11 @@ const UserProfileComponent = (props) => {
                     />
                   </td>
                   <td>
-                    <a
-                      href={`petProfile/${pet._id}`}
+                    <button
                       style={{ textDecorationColor: "orange" }}
                     >
                       <p style={{ color: "orange" }}>{pet.name}</p>
-                    </a>
+                    </button>
                   </td>
                   <td>{pet.age}</td>
                   <td>{pet.species}</td>
