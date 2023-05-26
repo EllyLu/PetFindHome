@@ -10,7 +10,7 @@ const authRoute = require("./routes/auth-route");
 const petsRoute = require("./routes/pets-route");
 const port = process.env.PORT || 8000;
 const corsOptions ={
-  origin:'http://localhost:8000', 
+  origin:'https://pet-find-home.vercel.app', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }
