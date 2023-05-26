@@ -9,14 +9,7 @@ const cors = require("cors");
 const authRoute = require("./routes/auth-route");
 const petsRoute = require("./routes/pets-route");
 const port = process.env.PORT || 8000;
-const corsOptions = {
-  origin: [
-    "https://pet-find-home.vercel.app",
-    "https://pet-find-home-server.vercel.app/api/pets?petType=%E7%8B%97",
-  ],
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
+
 
 //connect to MongoDB
 mongoose
@@ -32,7 +25,7 @@ mongoose
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use("/api/user", authRoute);
 app.use(

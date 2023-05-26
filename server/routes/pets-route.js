@@ -11,7 +11,6 @@ router.use((req, res, next) => {
 
 //查看所有待領養的寵物
 router.get("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
   Pet.find({ petType: req.query.petType })
     .sort({ date: -1 })
     .then((pets) => {
