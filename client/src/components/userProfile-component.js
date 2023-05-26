@@ -139,11 +139,12 @@ const UserProfileComponent = (props) => {
                     />
                   </td>
                   <td>
-                    <button
+                    <a
+                      href={`petProfile/${pet._id}`}
                       style={{ textDecorationColor: "orange" }}
                     >
                       <p style={{ color: "orange" }}>{pet.name}</p>
-                    </button>
+                    </a>
                   </td>
                   <td>{pet.age}</td>
                   <td>{pet.species}</td>
@@ -160,12 +161,12 @@ const UserProfileComponent = (props) => {
                     </p>
                   </td>
                   <td>
-                    <a
-                      href="#"
+                    <button
+                      style={{border:"none"}}
                       onClick={() => handleRemoveAddPet(index, pet._id)}
                     >
                       <p>刪除</p>
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))}
