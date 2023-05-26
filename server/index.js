@@ -29,8 +29,9 @@ app.use(cors());
 app.use(function (req, res, next) {
   res.get("X-Frame-Options")
   res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
-  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
+  res.header('Access-Control-Allow-Headers', 'Origin, Methods, Content-Type, Authorization')
+  res.header('Access-Control-Allow-Methods', '*')
+  res.header('Access-Control-Allow-Credentials', true)
 })
 
 app.use("/api/user", authRoute);
