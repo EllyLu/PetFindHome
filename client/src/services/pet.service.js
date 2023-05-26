@@ -17,6 +17,7 @@ class PetService {
     return axios.get(API_URL, {
       params,
       headers: {
+        AccessControlAllowOrigin: "https://pet-find-home.vercel.app",
         Authorization: token,
       },
     });
