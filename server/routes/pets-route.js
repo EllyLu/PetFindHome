@@ -11,10 +11,9 @@ router.use((req, res, next) => {
 
 //查看所有待領養的寵物
 router.get("/", (req, res) => {
-  Pet.find({ petType : req.query.petType})
+  Pet.find({ petType: req.query.petType })
     .sort({ date: -1 })
     .then((pets) => {
-      
       const updatedPets = pets.map((pet) => {
         const updatedImages = pet.image.map((base64String) =>
           pet.base64ToImage(base64String)
@@ -46,7 +45,7 @@ router.get("/petProfile/:pet_id", (req, res) => {
     });
 });
 
-//添加喜歡的寵物
+//將寵物添加至清單
 router.post("/petProfile/:pet_id", async (req, res) => {
   let { pet_id } = req.params;
   try {
@@ -54,6 +53,23 @@ router.post("/petProfile/:pet_id", async (req, res) => {
     pet.adopters.push(req.user._id);
     await pet.save();
     res.send("添加成功");
+  } catch (err) {
+    res.send(err);
+    console.log(err);
+  }
+});
+
+//移除添加至清單的寵物
+router.patch("/userProfile/removeAddPet", async (req, res) => {
+  console.log("req.body.pet_id : " + req.body.pet_id);
+  console.log("req.user.id : " + req.user.id);
+  try {
+    let pet = await Pet.findOneAndUpdate(
+      { _id: req.body.pet_id },
+      { $pull: { adopters: req.user.id } },
+      { new: true }
+    );
+    res.send(pet);
   } catch (err) {
     res.send(err);
     console.log(err);
@@ -119,6 +135,26 @@ router.post("/postPet", Pet.upload, async (req, res) => {
     res.status(200).send("新增成功");
   } catch (err) {
     res.status(400).send(err.errors.description.properties.message);
+    console.log(err);
+  }
+});
+
+//移除post的寵物
+router.delete("/userProfile/deletePostPet/:pet_id/:sender_id", async (req, res) => {
+  console.log("req.params.pet_id : " + req.params.pet_id);
+  console.log("req.params.sender_id : " + req.params.sender_id );
+  console.log("req.user.id: " + req.user.id);
+  const { sender_id } = req.params;
+  const { pet_id } = req.params;
+  if (sender_id != req.user.id ) return res.status(400).send("你無法刪除此筆資料");
+  try {
+    let pet = await Pet.findOneAndDelete(
+      { _id: pet_id },
+      { new: true }
+    );
+    res.send(pet);
+  } catch (err) {
+    res.send(err);
     console.log(err);
   }
 });

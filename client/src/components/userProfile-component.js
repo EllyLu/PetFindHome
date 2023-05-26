@@ -12,8 +12,6 @@ const UserProfileComponent = (props) => {
     PetService.removeAddPet(pet_id, user_id)
       .then(() => {
         window.alert("已從清單中移除");
-        AddPetData.splice(index, 1);
-
         setAddPetData((prevData) => {
           const newData = [...prevData];
           newData.splice(index, 1);
