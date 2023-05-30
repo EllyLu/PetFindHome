@@ -4,7 +4,8 @@ const path = require("path");
 
 const petSchema = mongoose.Schema({
     image: {
-        type: [Buffer],
+        //type: [Buffer],
+        type: [String]
     },
 
     name: {

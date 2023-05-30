@@ -35,11 +35,12 @@ router.get("/petProfile/:pet_id", (req, res) => {
   Pet.findOne({ _id: pet_id })
     .populate("sender", ["username", "email", "phoneNumber"])
     .then((pet) => {
-      const updatedImages = pet.image.map((base64String) => {
-        return pet.base64ToImage(base64String);
-      });
-      const updatedPet = { ...pet.toObject(), image: updatedImages };
-      res.status(200).send(updatedPet);
+      // const updatedImages = pet.image.map((base64String) => {
+      //   return pet.base64ToImage(base64String);
+      // });
+      // const updatedPet = { ...pet.toObject(), image: updatedImages };
+
+      res.status(200).send(pet);
     })
     .catch((err) => {
       res.status(500).send("無法獲得資料");
@@ -101,13 +102,15 @@ router.get("/userProfile/addPet", async (req, res) => {
 router.get("/userProfile/postPet", async (req, res) => {
   try {
     const pets = await Pet.find({ sender: req.user.id });
-    const updatedPets = pets.map((pet) => {
-      const updatedImages = pet.image.map((base64String) =>
-        pet.base64ToImage(base64String)
-      );
-      return { ...pet.toObject(), image: updatedImages };
-    });
-    res.send(updatedPets);
+    // const updatedPets = pets.map((pet) => {
+    //   const updatedImages = pet.image.map((base64String) =>
+    //     pet.base64ToImage(base64String)
+    //   );
+    //   return { ...pet.toObject(), image: updatedImages };
+      
+    //   })
+    
+    res.send(pets);
   } catch (err) {
     res.send(err);
     console.log(err);
@@ -141,112 +144,70 @@ router.get("/userProfile/postPet", async (req, res) => {
 //   }
 // });
 
-// router.post("/postPet", async (req, res) => {
-//   console.log("req.body in exterior1");
-//   console.log(req.body);
-//   Pet.upload(req, res, async () => {
-//     console.log("req.body in inner");
-//   console.log(req.body);
-//     const client = new ImgurClient({
-//       clientId: process.env.IMGUR_CLIENTID,
-//       clientSecret: process.env.IMGUR_CLIENT_SECRET,
-//       refreshToken: process.env.IMGUR_REFRESH_TOKEN,
-//     });
-//     req.files.map(async (file) => {
-//       const response = await client.upload({
-//         image: file.buffer.toString("base64"),
-//         type: "base64",
-//         album: process.env.IMGUR_ALBUM_ID,
-//       });
-//       const imageUrl = response.data.link;
-//       console.log("imageUrl" + imageUrl);
-//     });
-//     // const response = await client.upload({
-//     //   image: req.files[0].buffer.toString("base64"), //req.files.map((file) => file.buffer.toString("base64")),
-//     //   type: 'base64',
-//     //   album: process.env.IMGUR_ALBUM_ID
-//     // });
-//     // const imageUrl = response.data.link;
-//     // console.log(imageUrl);
-//   });
-//   console.log("req.body in exterior2");
-//   console.log(req.body);
-//   const { error } = petValidation(req.body);
-//   console.log(error);
-//   if (error) return res.status(400).send(error.details[0].message);
-//   const { name, petType, species, age, description } = req.body;
-//   const images = req.files.map((file) => file.buffer);
-  
-//   const newPet = new Pet({
-//     image: images,
-//     name,
-//     petType,
-//     species,
-//     age,
-//     description,
-//     sender: req.user._id,
-//   });
+router.post("/postPet", (req, res) => {
+  let images = [];
 
-//   try {
-//     await newPet.save();
-//     res.status(200).send("新增成功");
-//   } catch (err) {
-//     res.status(400).send(err.errors.description.properties.message);
-//     console.log(err);
-//   }
-// });
-
-router.post("/postPet", async (req, res) => {
-  console.log("req.body in exterior1");
-  console.log(req.body);
   Pet.upload(req, res, async () => {
-    console.log("req.body in inner");
-    console.log(req.body);
     const client = new ImgurClient({
       clientId: process.env.IMGUR_CLIENTID,
       clientSecret: process.env.IMGUR_CLIENT_SECRET,
       refreshToken: process.env.IMGUR_REFRESH_TOKEN,
     });
-    req.files.map(async (file) => {
-      const response = await client.upload({
-        image: file.buffer.toString("base64"),
-        type: "base64",
-        album: process.env.IMGUR_ALBUM_ID,
-      });
-      file.imageUrl = response.data.link;
-      console.log("imageUrl: " + file.imageUrl);
-    });
 
-    console.log("req.body in interior");
-    console.log(req.body);
+    
+    const uploadPromises = req.files.map(async (file) => {
+      const response = await client.upload({
+        image: file.buffer.toString('base64'),
+        type: 'base64',
+        album: process.env.IMGUR_ALBUM_ID
+      });
+      return response.data.link;
+    });
     
     const { error } = petValidation(req.body);
-    console.log(error);
     if (error) return res.status(400).send(error.details[0].message);
     const { name, petType, species, age, description } = req.body;
-    //const images = req.files.map((file) => file.buffer);
-    const images = req.files.map((file) => file.imageUrl);
-    const newPet = new Pet({
-      image: images,
-      name,
-      petType,
-      species,
-      age,
-      description,
-      sender: req.user._id,
-    });
 
     try {
+      const imageUrls = await Promise.all(uploadPromises);
+      console.log("imageUrls");
+      console.log(imageUrls);
+      const newPet = new Pet({
+        image: imageUrls,
+        name,
+        petType,
+        species,
+        age,
+        description,
+        sender: req.user._id,
+      });
       await newPet.save();
-      res.status(200).send("新增成功");
+      res.status(200).send("新增s成功");
     } catch (err) {
       res.status(400).send(err.errors.description.properties.message);
       console.log(err);
     }
-  });
 
-  console.log("req.body in exterior2");
-  console.log(req.body);
+    
+    // const newPet = new Pet({
+    //   image: images,
+    //   name,
+    //   petType,
+    //   species,
+    //   age,
+    //   description,
+    //   sender: req.user._id,
+    // });
+
+    // try {
+    //   await newPet.save();
+    //   res.status(200).send("新增成功");
+    // } catch (err) {
+    //   res.status(400).send(err.errors.description.properties.message);
+    //   console.log(err);
+    // }
+  });  
+  
 });
 
 //移除post的寵物

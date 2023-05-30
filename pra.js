@@ -9,8 +9,8 @@ const students = [
     }
 ]
 
-const studentName = students.map((student) => 
-    student.name
-)
-console.log("sss")
-console.log(studentName)
+students.forEach((student) => {
+    student.nameAge = student.name
+})
+
+console.log(students);

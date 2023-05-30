@@ -81,7 +81,7 @@ const PetProfileComponent = (props) => {
                     style={{ width: "100%", height: "100%" }}
                   >
                     <img
-                      src={`data:image/png;base64, ${OneImage}`}
+                      src={OneImage}
                       className="d-block w-100 img-fluid"
                       alt="..."
                       style={{
