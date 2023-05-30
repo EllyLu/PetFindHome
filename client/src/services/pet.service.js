@@ -1,6 +1,6 @@
 import axios from "axios";
-const API_URL = "https://pet-find-home-server.vercel.app/api/pets";
-//const API_URL = "http://localhost:8000/api/pets";
+//const API_URL = "https://pet-find-home-server.vercel.app/api/pets";
+const API_URL = "http://localhost:8000/api/pets";
 
 class PetService {
   getAllPet() {

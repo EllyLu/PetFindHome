@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PetService from "../services/pet.service";
-import petService from "../services/pet.service";
 
 const PetProfileComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
