@@ -1,7 +1,7 @@
 // 使用axios傳送response到server
 import axios from "axios";
-const API_URL = "https://pet-find-home-server.vercel.app/api/user";
-//const API_URL = "http://localhost:8000/api/user";
+//const API_URL = "https://pet-find-home-server.vercel.app/api/user";
+const API_URL = "http://localhost:8000/api/user";
 
 class AuthService {
   register(username, email, password) {

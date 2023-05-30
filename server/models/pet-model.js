@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const multer = require("multer");
+const path = require("path");
 
 const petSchema = mongoose.Schema({
     image: {
@@ -53,9 +54,22 @@ petSchema.methods.base64ToImage = function (base64String) {
   };
 
 //創建一個 Multer，設置圖片存儲位置和文件名
+// petSchema.statics.upload = multer({
+//     storage: multer.memoryStorage(),
+//     limits: { fileSize: 5242880 }, // 限制圖片大小為 5MB
+//   }).array("images",5);  
+
 petSchema.statics.upload = multer({
-    storage: multer.memoryStorage(),
-    limits: { fileSize: 5242880 }, // 限制圖片大小為 5MB
-  }).array("images",5);  
+limits: {
+    fileSize: 5 * 1024 * 1024,
+},
+fileFilter(req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext !== '.jpg' && ext !== '.png' && ext !== '.jpeg') {
+    cb('檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式。');
+    }
+    cb(null, true);
+},
+}).array("images",5);
 
 module.exports = mongoose.model("Pet", petSchema);
