@@ -132,7 +132,7 @@ const UserProfileComponent = (props) => {
                       className="bd-placeholder-img"
                       width="100"
                       height="100"
-                      src={`data:image/png;base64, ${pet.image[0]}`}
+                      src={pet.image[0]}
                       alt=""
                     />
                   </td>

@@ -15,13 +15,7 @@ router.get("/", (req, res) => {
   Pet.find({ petType: req.query.petType })
     .sort({ date: -1 })
     .then((pets) => {
-      const updatedPets = pets.map((pet) => {
-        const updatedImages = pet.image.map((base64String) =>
-          pet.base64ToImage(base64String)
-        );
-        return { ...pet.toObject(), image: updatedImages };
-      });
-      res.send(updatedPets);
+      res.send(pets);
     })
     .catch((err) => {
       console.log(err);
@@ -35,11 +29,6 @@ router.get("/petProfile/:pet_id", (req, res) => {
   Pet.findOne({ _id: pet_id })
     .populate("sender", ["username", "email", "phoneNumber"])
     .then((pet) => {
-      // const updatedImages = pet.image.map((base64String) => {
-      //   return pet.base64ToImage(base64String);
-      // });
-      // const updatedPet = { ...pet.toObject(), image: updatedImages };
-
       res.status(200).send(pet);
     })
     .catch((err) => {
@@ -85,13 +74,7 @@ router.get("/userProfile/addPet", async (req, res) => {
       "sender",
       ["username", "email", "phoneNumber"]
     );
-    const updatedPets = pets.map((pet) => {
-      const updatedImages = pet.image.map((base64String) =>
-        pet.base64ToImage(base64String)
-      );
-      return { ...pet.toObject(), image: updatedImages };
-    });
-    res.send(updatedPets);
+    res.send(pets);
   } catch (err) {
     res.send(err);
     console.log(err);
@@ -102,14 +85,6 @@ router.get("/userProfile/addPet", async (req, res) => {
 router.get("/userProfile/postPet", async (req, res) => {
   try {
     const pets = await Pet.find({ sender: req.user.id });
-    // const updatedPets = pets.map((pet) => {
-    //   const updatedImages = pet.image.map((base64String) =>
-    //     pet.base64ToImage(base64String)
-    //   );
-    //   return { ...pet.toObject(), image: updatedImages };
-      
-    //   })
-    
     res.send(pets);
   } catch (err) {
     res.send(err);
@@ -170,8 +145,6 @@ router.post("/postPet", (req, res) => {
 
     try {
       const imageUrls = await Promise.all(uploadPromises);
-      console.log("imageUrls");
-      console.log(imageUrls);
       const newPet = new Pet({
         image: imageUrls,
         name,
@@ -187,25 +160,6 @@ router.post("/postPet", (req, res) => {
       res.status(400).send(err.errors.description.properties.message);
       console.log(err);
     }
-
-    
-    // const newPet = new Pet({
-    //   image: images,
-    //   name,
-    //   petType,
-    //   species,
-    //   age,
-    //   description,
-    //   sender: req.user._id,
-    // });
-
-    // try {
-    //   await newPet.save();
-    //   res.status(200).send("新增成功");
-    // } catch (err) {
-    //   res.status(400).send(err.errors.description.properties.message);
-    //   console.log(err);
-    // }
   });  
   
 });

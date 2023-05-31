@@ -11,6 +11,7 @@ const PostPetComponent = (props) => {
   let [species, setSpecies] = useState("");
   let [description, setDescription] = useState("");
   let [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChangeImages = (e) => {
@@ -58,7 +59,9 @@ const PostPetComponent = (props) => {
       .catch((error) => {
         console.log(error.response);
         setMessage(error.response.data);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
   };
 
   return (
@@ -155,6 +158,7 @@ const PostPetComponent = (props) => {
         </div>
         <br></br>
         <div>
+          {loading && <p>Loading...</p>}
           <button className="btn btn-primary" onClick={postPet}>
             新增寵物
           </button>

@@ -71,7 +71,7 @@ const PetComponent = (props) => {
                       className="bd-placeholder-img card-img-top"
                       width="100%"
                       height="300"
-                      src={`data:image/png;base64, ${pet.image[0]}`}
+                      src={pet.image[0]}
                     ></img>
                     <div className="card-body">
                       <a
